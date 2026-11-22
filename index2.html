@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css"
+        integrity="sha512-x9WwyMYBnlXMNQ6kQ/Lyzu1NqIhLQKL5Oq6xByfXuRj7s9CskyCbLv/1IjqzJmXwFXWr0ov6jBV7Qbc0hh9nHg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .product-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .card {
+            width: 400px;
+            overflow: hidden;
+            background-color: rgb(82, 107, 129);
+        }
+
+        .card>img {
+            height: 200px;
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .card>img:hover {
+            transform: scale(1.3);
+            transition: all 0.4s ease;
+        }
+
+        header {
+            height: 60px;
+            box-shadow: 2px 3px 2px rgba(82, 107, 129, 0.4);
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+        .cart-container {
+            position: relative;
+        }
+        .cart-container small{
+            position: absolute;
+            background-color: red;
+            height: 15px;
+            width: 25px;
+            border-radius: 100px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            top: -15px;
+            right: -15px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="#">store</a>
+        <div class="cart-container">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <small>0</small>
+        </div>
+    </header>
+    <div class="product-container">
+
+    </div>
+    <button id="btn">click</button>
+    <a href="#">read more</a>
+</body>
+
+<script>
+        const cartBadge=document.querySelector("small")
+            let localCart=localStorage.getItem("cart")
+    let localObject=JSON.parse(localCart||'[]')
+    cartBadge.text=localObject.reduce((sum,current)=>{
+        sum=current.quantity
+        return sum
+    },0)
+    let button = document.getElementById("btn")
+    function handleClick(e) {
+        console.log(e)
+    }
+    button.addEventListener("click", handleClick)
+    let products = [
+        {
+            id: 1, name: "shoes1",
+            description: "desc1", price: 4000,
+            image: "./images/shoes1.png"
+        },
+        {
+            id: 2, name: "shoes2",
+            description: "desc2", price: 3000,
+            image: "./images/shoes2.png"
+        },
+        {
+            id: 3, name: "mouse",
+            description: "desc3", price: 1000,
+            image: "./images/shoes1.png"
+        },
+        {
+            id: 4, name: "shoes3",
+            description: "desc4", price: 7000,
+            image: "./images/shoes2.png"
+        }
+    ]
+    let productContainer = document.querySelector(".product-container")
+    products.forEach((product) => {
+
+        let cardElement = document.createElement("div")
+        cardElement.classList.add('card')
+        cardElement.innerHTML = `<img src=${product.image} alt='image not found'>
+                                <h1>${product.name}</h1>
+                                <h3>${product.price}</h3>
+                                <button onclick="addToCart(${product.id})">add to cart</button>
+                                    `
+        productContainer.append(cardElement)
+    })
+    let cart =JSON.parse(localStorage.getItem("cart"))
+
+
+    cartBadge.text=localObject.reduce((sum,current)=>{
+        sum=current.quantity
+        return sum
+    },0)
+    console.log(localObject.length);
+
+    function addToCart(id) {
+        const product = products.find((p) => p.id === id)
+        const cartProduct = cart.find((p)=>p.id == id)
+        if(!cartProduct){
+            product.quantity = 1
+            cart.push({...product,quantity:1})
+        }
+         else{
+            cartProduct.quantity=cartProduct.quantity + 1
+         }
+         cartBadge.textContent=cart.reduce((sum,current)=>{
+        sum=current.quantity
+        return sum
+    },0)
+    localStorage.setItem("cart",JSON.stringify(cart))
+        console.log(products);
+    }
+    const storeElement = document.querySelector("header a")
+    storeElement.addEventListener("mouseover", function displayChild(a) {
+       addtocart.push(quantity)
+    })
+</script>
+
+
+
+</html>
